@@ -1,116 +1,221 @@
-<<<<<<< HEAD
-# Bank-Loan-Credit-Debit-Analysis
-## Project Objective
-Utilized SQL, Excel, Power BI, and Tableau for ETL and analysis of loan data. Explored loan amounts, interest rates, customer demographics, and repayment behavior. Segmented customers for targeted strategies and identified trends in loan performance. Maintained interactive dashboards for insights and updates.
+# 💼 Bank Loan, Credit & Debit Analysis Dashboard 📊
 
-## Questions (KPIs)
-## Loan Dashboard KPI Description 
+## 🔍 Overview
 
-1. Total Loan Amount Funded: Measures the total value of loans disbursed.
-2. Total Loans: Tracks the number of loans issued.
-3. Total Collection: Reflects repayment performance, including principal and interest.
-4. Total Interest: Captures revenue from loan interest.
-5. Branch-Wise Performance: Analyzes revenue (interest, fees, total) by branch.
-6. State-Wise Loan: Shows geographic distribution of loans.
-7. Religion-Wise Loan: Monitors loan distribution across religious demographics.
-8. Product Group-Wise Loan: Categorizes loans by product types (e.g., personal, auto).
-9. Disbursement Trend: Tracks changes in loan disbursements over time.
-10. Grade-Wise Loan: Assesses portfolio risk by borrower credit grades.
-11. Default Loan Count: Counts loans in default.
-12. Delinquent Client Count: Tracks borrowers with missed payments.
-13. Delinquent Loan Rate: Percentage of loans overdue in the portfolio.
-14. Default Loan Rate: Proportion of defaulted loans to the total portfolio.
-15. Loan Status-Wise Loan: Breaks down loans by status (active, delinquent, closed).
-16. Age Group-Wise Loan: Categorizes loans by borrowers’ age groups.
-17. Loan Maturity: Tracks the timeline until full repayment 
-18. No Verified Loans: Identifies loans without proper verification.
+This project leverages **SQL** and **Power BI** to analyze bank loan disbursement patterns, customer demographics, creditworthiness, and transaction behavior. It provides a comprehensive, interactive dashboard for financial decision-makers to monitor and act upon key performance indicators (KPIs).
 
-## Bank Debit and Credit Dashboard KPI Description 
+---
 
-1-Total Credit Amount:
+## 🎯 Objectives
 
-Formula: Sum of the Amount column where Transaction Type = "Credit".
-Insight: Measures the total amount of deposits or credits, which can be compared against total withdrawals.
+- Perform ETL on loan and transaction data using SQL.
+- Create dynamic Power BI dashboards for clear insights.
+- Analyze loan disbursement trends, default risks, and customer segmentation.
+- Evaluate debit/credit performance across branches.
+- Enable data-driven strategies using KPIs and visualization.
 
-2-Total Debit Amount:
+---
 
-Formula: Sum of the Amount column where Transaction Type = "Debit".
-Insight: Measures the total amount of withdrawals or debits.
+## 📂 Dataset Information
 
-3-Credit to Debit Ratio:
+### 🔸 1. Loan Dataset
 
-Formula: Total Credit Amount ÷ Total Debit Amount.
-Insight: Shows the ratio of credits to debits, which helps to understand whether the bank is receiving more deposits than withdrawals.
+| Column Name      | Description                                   |
+|------------------|-----------------------------------------------|
+| Loan_ID          | Unique identifier for each loan               |
+| Loan_Amount      | Disbursed loan amount                         |
+| Interest_Rate    | Interest rate applied                         |
+| Term             | Duration of the loan in months                |
+| Grade            | Credit grade of the borrower (A–G)            |
+| Age_Group        | Age category of the borrower                  |
+| Religion         | Religion of the borrower                      |
+| Product_Group    | Type of loan (e.g., Home, Auto)               |
+| State            | State of the borrower                         |
+| Branch_Name      | Branch issuing the loan                       |
+| Disbursement_Date| Date the loan was issued                      |
+| Loan_Status      | Status (Active, Closed, Delinquent, etc.)     |
+| Is_Verified      | Whether the loan was verified                 |
 
-4-Net Transaction Amount:
+### 🔸 2. Transaction Dataset
 
-Formula: Total Credit Amount - Total Debit Amount.
-Insight: Measures the net cash flow (positive or negative) for the bank over a period.
+| Column Name      | Description                                   |
+|------------------|-----------------------------------------------|
+| Transaction_ID   | Unique identifier for the transaction         |
+| Account_ID       | Customer’s account number                     |
+| Transaction_Type | Either "Credit" or "Debit"                    |
+| Amount           | Value of the transaction                      |
+| Branch_Name      | Branch where the transaction took place       |
+| Transaction_Date | Date of the transaction                       |
 
-5-Account Activity Ratio:
+---
 
-Formula: Number of transactions ÷ Account balance.
-Insight: Indicates how active a customer is in relation to their balance.
+## 🗄️ SQL Table Schemas
 
-6-Transactions per Day/Week/Month:
+### 📘 Table: `loan_data`
 
-Formula: Number of transactions occurring per day, week, or month.
-Insight: Identifies transaction volume trends over time, helping to detect periods of high or low activity.
+```sql
+CREATE TABLE loan_data (
+    Loan_ID VARCHAR(20) PRIMARY KEY,
+    Loan_Amount DECIMAL(12,2),
+    Interest_Rate DECIMAL(5,2),
+    Term INT,
+    Grade CHAR(1),
+    Age_Group VARCHAR(20),
+    Religion VARCHAR(20),
+    Product_Group VARCHAR(50),
+    State VARCHAR(50),
+    Branch_Name VARCHAR(100),
+    Disbursement_Date DATE,
+    Loan_Status VARCHAR(20),
+    Is_Verified VARCHAR(10)
+);
+````
 
-7-Total Transaction Amount by Branch:
+### 📘 Table: `transaction_data`
 
-Formula: Sum of the Amount column grouped by Branch.
-Insight: Measures the total transaction volume per branch, helping to compare branch performance.
-Transaction Volume by Bank:
+```sql
+CREATE TABLE transaction_data (
+    Transaction_ID VARCHAR(30) PRIMARY KEY,
+    Account_ID VARCHAR(30),
+    Transaction_Type VARCHAR(10),
+    Amount DECIMAL(12,2),
+    Branch_Name VARCHAR(100),
+    Transaction_Date DATE
+);
+```
 
-## Excel Credit & Debit Analysis Dashboard 
-![Credit   Debit Dashboard Excel](https://github.com/user-attachments/assets/85ff1545-87d6-4341-adcf-74b78c98cd35)
+---
 
-## Excel Loan Anlysis Dashboard
-![loan dashboard  excel](https://github.com/user-attachments/assets/c2f584b7-ccb8-4e76-8c08-1afce999fa2f)
+## 📘 Entity Relationship Diagram (ERD)
 
-## Power BI Loan Analysis Dashboard
-![loan dashboard powerbi](https://github.com/user-attachments/assets/40e5a01c-03c1-43d8-8c17-6a50612ef9f3)
+```
++---------------------+              +--------------------------+
+|     loan_data       |              |     transaction_data     |
++---------------------+              +--------------------------+
+| Loan_ID (PK)        |              | Transaction_ID (PK)      |
+| Loan_Amount         |              | Account_ID               |
+| Interest_Rate       |              | Transaction_Type         |
+| Term                |              | Amount                   |
+| Grade               |              | Branch_Name              |
+| Age_Group           |              | Transaction_Date         |
+| Religion            |              +--------------------------+
+| Product_Group       |
+| State               |
+| Branch_Name  <--------------------->  Branch_Name
+| Disbursement_Date   |
+| Loan_Status         |
+| Is_Verified         |
++---------------------+
+```
 
-## Power BI Credit & Debit Analysis Dashboard
-![Credit   Debit Dashboard PowerBI](https://github.com/user-attachments/assets/d060d9bb-f35b-4b25-8c01-8d32b2905b11)
+---
 
-## Tableau Loan Analysis Dashboard
-![Loan Analysis Dashboard Tableau](https://github.com/user-attachments/assets/23e4ed1e-1aff-4228-813d-3a118bdfabac)
-![Loan Analysis 2 Tableau](https://github.com/user-attachments/assets/80bbcc2e-79d9-4491-9120-3d69da8f47ff)
+## 📌 KPIs Monitored
 
-## Tableau Credit & Debit Analysis
-![Credit And Debit Dashboard Tableau](https://github.com/user-attachments/assets/8e21cf8f-1c43-426c-ad70-ec0202771550)
+### 💳 Loan Dashboard KPIs
 
-## Insights 
+* Total Loan Amount Funded
+* Total Loans
+* Total Collection (Principal + Interest)
+* Total Interest Income
+* Branch-Wise Performance
+* State-Wise Loan Distribution
+* Religion-Wise Loan Breakdown
+* Product Group-Wise Loans
+* Disbursement Trend (Yearly)
+* Grade-Wise Risk Analysis
+* Default Loan Count
+* Delinquent Client Count
+* Delinquent & Default Loan Rate
+* Loan Status Breakdown
+* Age Group-Wise Loan Share
+* Loan Maturity Timeline
+* No Verified Loans Count
 
-Religion Wise loan (pie chart) :- From the Religion wise pie chart we can conclude, The majority of the loan amount is distributed to Hindu applicants, accounting for 75% of the total. Muslim and Sikh applicants follow with 11% and 13% respectively, while Christian applicants represent only 1% of the loan distribution.
+### 💰 Credit & Debit Dashboard KPIs
 
-Disbursement Trend (Line Chart) :- Loan disbursement saw a sharp rise from FY 2017 (4.17%) to FY 2019 (56.87%), indicating strong growth over two years. However, there was a notable decline in FY 2020 to 8.51%, possibly due to market slowdown or external factors like economic uncertainty.
+* Total Credit Amount
+* Total Debit Amount
+* Credit to Debit Ratio
+* Net Transaction Amount
+* Account Activity Ratio
+* Transactions per Day/Week/Month
+* Total Transaction Volume by Branch
 
-Age Group Wise Loan :- The 26–45 age group accounts for the highest loan disbursement, showing strong borrowing activity during prime working years. In contrast, the 18–25 and 56–63 age groups received significantly lower loan amounts.
+---
 
-Grade Wise Loan :- Grade B leads the loan portfolio at 29.99%, followed by Grade C at 20%, showing a focus on moderate-risk borrowers. Lower grades (D-G) decrease progressively, with G at 1.43%, reflecting limited exposure to high-risk profiles.
+## 📊 Power BI Dashboards
 
-Loan Status-Wise Loan :- Active loans make up the majority at 63%, indicating strong ongoing engagement from borrowers. Delinquent and defaulted loans together account for only 12%, suggesting relatively low credit risk in the portfolio.
+### 🔹 Loan Analysis Dashboard
 
-Loan Maturity :- In the loan maturity clustered column chart, the green column represents loans with a 36-month tenure, while the orange represents those with a 60-month tenure. Among active loans, 41.19% of 36-month loans and 14.28% of 60-month loans are yet to be paid off, indicating a higher proportion of shorter-term loans remain outstanding. Like wise the remaining status has there own % as shown in the chart.
+![Loan Dashboard](https://github.com/user-attachments/assets/40e5a01c-03c1-43d8-8c17-6a50612ef9f3)
 
-Product Group-Wise Loan :- The Product Group-Wise Loan KPI bar chart highlights that Home Loans dominate the portfolio at ₹278.26 Cr, followed by Services at ₹155.53 Cr. Business, Trade, and Mobile Phones contribute comparatively smaller shares, indicating a strong focus on housing and service-related lending.
+### 🔹 Credit & Debit Analysis Dashboard
 
-No Verified Loans :- The "No Verified Loans" donut chart shows that 16,921 loans are explicitly marked as not verified, while 25,818 loans fall under the "Unknown" category due to missing verification data. This highlights a significant gap in loan verification, which may pose a risk to data reliability and assessment accuracy.
+![Credit & Debit Dashboard](https://github.com/user-attachments/assets/d060d9bb-f35b-4b25-8c01-8d32b2905b11)
+
+---
+
+## 📈 Key Insights
+
+* **Religion-Wise Loan:** 75% of loans issued to Hindu borrowers; Muslim (11%), Sikh (13%), Christian (1%).
+* **Disbursement Trend:** Peak in FY 2019 (56.87%), sharp fall in FY 2020 (8.51%).
+* **Age Group:** 26–45 years account for most loans; youngest and oldest age groups take fewer loans.
+* **Grade-Wise:** Grades B and C dominate; lower risk preference.
+* **Loan Status:** 63% active, only 12% delinquent/defaulted — strong repayment profile.
+* **Loan Maturity:** 36-month loans dominate over 60-month ones in outstanding loans.
+* **Product Group:** Home Loans ₹278.26 Cr, Services ₹155.53 Cr — housing dominates.
+* **Unverified Loans:** 16,921 marked “No,” 25,818 as “Unknown” — indicates risk in documentation.
+
+---
+
+## 💡 Use Cases
+
+* Identify high-risk customers and default patterns.
+* Analyze branch-level performance and customer behavior.
+* Use geographic and demographic filters for targeted campaigns.
+* Understand net cash flow through debit-credit tracking.
+* Improve loan product strategy based on customer profiles.
+
+---
+
+## 🧠 Skills Applied
+
+* SQL: ETL, joins, filtering, transformation
+* Power BI: Slicers, DAX measures, KPI Cards, line & bar charts
+* Data Modeling: Relationships and normalization
+* Dashboard Design: Interactive, clean, user-focused
+* Insight Generation: Business decision support
+
+---
+
+## 🛠️ How to Use This Project
+
+1. **Clone the Repository**
+
+   ```bash
+   git clone https://github.com/yourusername/Bank-Loan-Credit-Debit-Analysis.git
+   ```
+
+2. **Open Power BI Desktop** and load:
+
+   * `loan_data.csv`
+   * `transaction_data.csv`
+
+3. **Configure SQL connection** if you're pulling from a database.
+
+4. Refresh model and explore dashboards interactively.
+
+---
+
+## 🚀 Future Enhancements
+
+* Integrate live APIs or real-time SQL connection
+* Add Python/R scripts for ML-based default prediction
+* Embed dashboards on a web portal with role-based filters
+* Add forecasting using Power BI’s built-in analytics
+* Automate alerts for default spikes or unusual activity
+
+---
 
 
-
-
-
-
-
-
-
-
-
-
-=======
-# BankLoanDashboard
->>>>>>> 474b88d8c3cc4e555dad88fbb3cbbb424ec360ba
