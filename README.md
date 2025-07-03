@@ -147,8 +147,7 @@ CREATE TABLE transaction_data (
 ## 📊 Power BI Dashboards
 
 ### 🔹 Loan Analysis Dashboard
-
-![Loan Dashboard](https://github.com/user-attachments/assets/40e5a01c-03c1-43d8-8c17-6a50612ef9f3)
+<img width="653" alt="image" src="https://github.com/user-attachments/assets/48eef0fc-bf99-4d45-8cc2-e27e348fa7c6" />
 
 ### 🔹 Credit & Debit Analysis Dashboard
 
